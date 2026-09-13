@@ -13,7 +13,7 @@ Phase 1 (public site, database, auth, student dashboard) and Phase 2
 - Enrollment flow: instant for free courses, payment-reference submission
   for paid courses (manual approval — no fake payment gateway)
 - Student Dashboard: welcome message, per-course progress bars, upcoming
-  live classes, most recent quiz score, certificate count 
+  live classes, most recent quiz score, certificate count
 - Middleware that blocks logged-out visitors from `/dashboard` and `/learn`,
   and blocks students from ever reaching `/admin`
 
