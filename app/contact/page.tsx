@@ -25,7 +25,18 @@ export default async function ContactPage() {
           </div>
           <div>
             <p className="text-ink/50 mb-1">WhatsApp</p>
-            <p className="text-ink">{settings?.whatsapp_number || 'Coming soon'}</p>
+            {settings?.whatsapp_number ? (
+              <a
+                href={`https://wa.me/${settings.whatsapp_number.replace(/[^0-9]/g, '')}`}
+                target="_blank"
+                rel="noreferrer"
+                className="text-ink underline"
+              >
+                {settings.whatsapp_number}
+              </a>
+            ) : (
+              <p className="text-ink">Coming soon</p>
+            )}
           </div>
         </div>
 

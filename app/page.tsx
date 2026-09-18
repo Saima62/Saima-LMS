@@ -12,13 +12,19 @@ export default async function HomePage() {
 
   const focusAreas = [
     'Spoken English',
-    'Conversational English',
-    'English for Adults',
-    'English for Kids',
-    'English Grammar',
-    'Everyday English',
-    'English for Workplace',
-    'Personalized English Learning'
+    'Grammar',
+    'School Tuition',
+    'English Communication',
+    'Computer & Digital Skills'
+  ];
+
+  const whyUs = [
+    { title: 'Personalized Learning', text: 'Lessons and pace shaped around how each student actually learns.' },
+    { title: 'Practical Speaking Practice', text: 'Real conversation practice, not just rules to memorize.' },
+    { title: 'Structured Courses', text: 'Clear modules and lessons that build on each other week by week.' },
+    { title: 'Regular Progress Tracking', text: 'See completed lessons, quiz scores, and course progress at a glance.' },
+    { title: 'Live Learning Support', text: 'Scheduled live classes for enrolled students, alongside self-paced lessons.' },
+    { title: 'Student-Friendly Teaching', text: 'Patient, encouraging teaching suited to adults, school students, and beginners alike.' }
   ];
 
   return (
@@ -27,11 +33,11 @@ export default async function HomePage() {
         <div>
           <p className="text-sm tracking-wide text-academy-600 mb-4">Saima Perveen English Academy</p>
           <h1 className="font-serif text-4xl md:text-5xl text-ink leading-tight mb-6">
-            Learn to speak English with confidence, not just correctness.
+            Learn English with Confidence. Build Skills for Real Life.
           </h1>
           <p className="text-ink/70 mb-8 max-w-md">
-            Structured courses, live practice and honest feedback from a dedicated tutor —
-            built for adults, professionals and learners who want to actually use English, not just study it.
+            Structured online English courses, school subject tuition and personalized learning
+            support for students and adults.
           </p>
           <div className="flex gap-4">
             <Link href="/courses" className="bg-ink text-paper px-6 py-3 rounded-sm hover:bg-academy-700">
@@ -65,6 +71,18 @@ export default async function HomePage() {
               No published courses yet — add your first one from the Admin Dashboard.
             </p>
           )}
+        </div>
+      </section>
+
+      <section className="container-academy pb-24">
+        <h2 className="font-serif text-2xl text-ink mb-8">Why Learn With Us?</h2>
+        <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-6">
+          {whyUs.map((item) => (
+            <div key={item.title} className="border border-academy-100 bg-white rounded-sm p-6">
+              <p className="font-serif text-lg text-ink mb-2">{item.title}</p>
+              <p className="text-sm text-ink/70">{item.text}</p>
+            </div>
+          ))}
         </div>
       </section>
     </div>

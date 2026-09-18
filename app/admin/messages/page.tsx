@@ -6,7 +6,7 @@ export default async function AdminMessagesPage() {
 
   const { data: messages } = await supabase
     .from('contact_messages')
-    .select('id, name, email, message, created_at, is_read')
+    .select('id, name, email, message, category, created_at, is_read')
     .order('created_at', { ascending: false });
 
   const unread = (messages || []).filter((m) => !m.is_read);
@@ -26,7 +26,14 @@ export default async function AdminMessagesPage() {
           <div key={m.id} className="border border-gold/40 bg-academy-50 rounded-sm p-5">
             <div className="flex items-start justify-between gap-3 mb-2">
               <div>
-                <p className="text-ink font-medium">{m.name}</p>
+                <p className="text-ink font-medium">
+                  {m.name}
+                  {m.category && (
+                    <span className="ml-2 text-xs font-normal text-academy-600 bg-academy-50 border border-academy-100 rounded-sm px-2 py-0.5">
+                      {m.category}
+                    </span>
+                  )}
+                </p>
                 <p className="text-xs text-ink/50">
                   {m.email} · {new Date(m.created_at).toLocaleString()}
                 </p>
@@ -45,7 +52,14 @@ export default async function AdminMessagesPage() {
         {read.map((m) => (
           <div key={m.id} className="border border-academy-100 bg-white rounded-sm p-5">
             <div className="flex items-start justify-between gap-3 mb-2">
-              <p className="text-ink font-medium">{m.name}</p>
+              <p className="text-ink font-medium">
+                {m.name}
+                {m.category && (
+                  <span className="ml-2 text-xs font-normal text-ink/50 bg-academy-50 border border-academy-100 rounded-sm px-2 py-0.5">
+                    {m.category}
+                  </span>
+                )}
+              </p>
               <p className="text-xs text-ink/50">
                 {m.email} · {new Date(m.created_at).toLocaleString()}
               </p>

@@ -607,3 +607,9 @@ create policy "academy_settings_public_read" on academy_settings
 create policy "academy_settings_admin_write" on academy_settings
   for update
   using (is_admin());
+
+-- ============================================================
+-- PHASE 7 ADDITIONS: contact form categories
+-- Run just this section if everything above already exists.
+-- ============================================================
+alter table contact_messages add column if not exists category text;

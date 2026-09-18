@@ -1,31 +1,59 @@
 const faqs = [
   {
+    q: 'Who can join the academy?',
+    a: 'Anyone looking to improve their English — adults, professionals, and school students — as well as those looking for school subject tuition. Courses are marked by level so you can find what fits you.'
+  },
+  {
+    q: 'What courses are available?',
+    a: 'Spoken English, English Grammar, and personalized school subject tuition covering English, Computer, and more — see the full, current list on the Courses page.'
+  },
+  {
+    q: 'Do you offer school subject tuition?',
+    a: 'Yes — school subject tuition is available with structured lessons, concept clarification, practice questions, and homework guidance.'
+  },
+  {
+    q: 'Do you offer spoken English classes?',
+    a: 'Yes — Spoken English Mastery is one of our core courses, focused on real speaking confidence and everyday conversation.'
+  },
+  {
+    q: 'Are classes online?',
+    a: 'Yes, everything is online — self-paced lesson videos and notes, plus scheduled live classes for enrolled students.'
+  },
+  {
+    q: 'How can I enroll?',
+    a: 'Open a course page and select "Enroll now." Free courses give you instant access; paid courses walk you through the payment steps.'
+  },
+  {
+    q: 'How can I pay?',
+    a: "Payment details (currently Easypaisa) are on the Contact page. After paying, submit your transaction reference on the enrollment screen — your seat is confirmed once it's reviewed."
+  },
+  {
+    q: 'How do I contact the instructor?',
+    a: 'Use the Contact page — by email, WhatsApp, or the contact form.'
+  },
+  {
+    q: 'Are live classes available?',
+    a: "Yes — enrolled students see upcoming live classes, with the meeting link, on their dashboard once a class is scheduled."
+  },
+  {
+    q: 'Will I receive a certificate?',
+    a: "Yes. Once you've completed every lesson in a course, a certificate is issued automatically and appears under Certificates on your dashboard, ready to download as a PDF."
+  },
+  {
+    q: 'Can students get personalized learning support?',
+    a: 'Yes — teaching is student-friendly and adapts to how each learner is progressing, whether in a structured course or school subject tuition.'
+  },
+  {
     q: 'How do the courses work?',
-    a: 'Each course is broken into weekly modules. Every module has video lessons, notes, downloadable worksheets, and often a short quiz. You work through lessons at your own pace and mark each one complete as you finish it.'
+    a: "Each course is broken into modules. Every module has video lessons, notes, downloadable worksheets, and often a short quiz. You work through lessons at your own pace and mark each one complete as you finish it."
   },
   {
-    q: 'Are classes live or pre-recorded?',
-    a: 'Both. Lesson videos are pre-recorded so you can learn on your own schedule, and enrolled students also get access to scheduled live classes for real conversation practice — the meeting link appears on your dashboard once a class is scheduled.'
-  },
-  {
-    q: 'How do I pay for a paid course?',
-    a: 'Choose "Enroll now" on the course page, send payment using the details on the Contact page, then submit your transaction reference. Enrollment is confirmed once it\u2019s reviewed, usually within 24 hours.'
-  },
-  {
-    q: 'Do I get a certificate?',
-    a: 'Yes. Once you\u2019ve completed every lesson in a course, a certificate is issued automatically and appears under Certificates on your dashboard, ready to download as a PDF.'
-  },
-  {
-    q: 'Can I retake a quiz if I don\u2019t pass?',
-    a: 'That depends on the quiz \u2014 most allow retakes, and you\u2019ll see a "Retake quiz" option on your result page if so. If a quiz doesn\u2019t allow retakes, your best (and only) attempt stands.'
+    q: "Can I retake a quiz if I don't pass?",
+    a: "That depends on the quiz — most allow retakes, and you'll see a \"Retake quiz\" option on your result page if so. If a quiz doesn't allow retakes, your best (and only) attempt stands."
   },
   {
     q: 'What if my assignment needs to be resubmitted?',
-    a: 'You can upload a new file on the assignment page at any time \u2014 it replaces your previous submission and goes back into the grading queue.'
-  },
-  {
-    q: 'Are the courses suitable for complete beginners?',
-    a: 'Yes \u2014 course levels are marked on each course page (beginner, intermediate, advanced, or all levels), so you can pick what fits you.'
+    a: "You can upload a new file on the assignment page at any time — it replaces your previous submission and goes back into the grading queue."
   }
 ];
 

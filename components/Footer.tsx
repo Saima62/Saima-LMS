@@ -5,7 +5,7 @@ export default async function Footer() {
   const supabase = await createClient();
   const { data: settings } = await supabase
     .from('academy_settings')
-    .select('facebook_url, instagram_url, youtube_url')
+    .select('contact_email, whatsapp_number, facebook_url, instagram_url, youtube_url')
     .eq('id', 1)
     .maybeSingle();
 
@@ -32,6 +32,12 @@ export default async function Footer() {
             Main portfolio site
           </a>
           <Link href="/contact">Contact</Link>
+          {settings?.contact_email && <a href={`mailto:${settings.contact_email}`}>{settings.contact_email}</a>}
+          {settings?.whatsapp_number && (
+            <a href={`https://wa.me/${settings.whatsapp_number.replace(/[^0-9]/g, '')}`} target="_blank" rel="noreferrer">
+              WhatsApp: {settings.whatsapp_number}
+            </a>
+          )}
           {socialLinks.map((s) => (
             <a key={s.label} href={s.url!} target="_blank" rel="noreferrer">
               {s.label}

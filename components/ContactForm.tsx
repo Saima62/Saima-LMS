@@ -52,6 +52,21 @@ export default function ContactForm({ onSubmit }: { onSubmit: (formData: FormDat
         />
       </div>
       <div>
+        <label className="block text-sm text-ink mb-1">What's this about?</label>
+        <select
+          name="category"
+          defaultValue="General Question"
+          className="w-full border border-academy-100 rounded-sm px-3 py-2 text-sm bg-white"
+        >
+          <option>Course Inquiry</option>
+          <option>Spoken English</option>
+          <option>School Tuition</option>
+          <option>Payment/Enrollment</option>
+          <option>Live Classes</option>
+          <option>General Question</option>
+        </select>
+      </div>
+      <div>
         <label className="block text-sm text-ink mb-1">Message</label>
         <textarea
           name="message"
