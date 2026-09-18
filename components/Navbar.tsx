@@ -5,6 +5,7 @@ import LogoutButton from '@/components/LogoutButton';
 const links = [
   { href: '/courses', label: 'Courses' },
   { href: '/about', label: 'About' },
+  { href: '/faq', label: 'FAQ' },
   { href: '/contact', label: 'Contact' }
 ];
 
@@ -13,6 +14,12 @@ export default async function Navbar() {
   const {
     data: { user }
   } = await supabase.auth.getUser();
+
+  let isAdmin = false;
+  if (user) {
+    const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
+    isAdmin = profile?.role === 'admin';
+  }
 
   return (
     <header className="border-b border-academy-100 bg-paper/95 backdrop-blur sticky top-0 z-40">
@@ -33,6 +40,11 @@ export default async function Navbar() {
         <div className="flex items-center gap-3">
           {user ? (
             <>
+              {isAdmin && (
+                <Link href="/admin" className="text-sm text-ink/80 hover:text-ink">
+                  Admin
+                </Link>
+              )}
               <Link href="/dashboard" className="text-sm text-ink/80 hover:text-ink">
                 Dashboard
               </Link>

@@ -10,7 +10,8 @@ const links = [
   { href: '/admin/enrollments', label: 'Enrollments' },
   { href: '/admin/assignments', label: 'Assignments' },
   { href: '/admin/live-classes', label: 'Live Classes' },
-  { href: '/admin/messages', label: 'Messages' }
+  { href: '/admin/messages', label: 'Messages' },
+  { href: '/admin/settings', label: 'Settings' }
 ];
 
 export default function AdminSidebar() {

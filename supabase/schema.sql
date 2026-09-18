@@ -573,3 +573,37 @@ create policy "avatars_update_own_folder" on storage.objects
 create policy "avatars_public_read" on storage.objects
   for select
   using (bucket_id = 'avatars');
+
+-- ============================================================
+-- PHASE 6 ADDITIONS: editable Academy Settings (contact + payment + social)
+-- Run just this section if everything above already exists.
+-- ============================================================
+create table if not exists academy_settings (
+  id int primary key default 1,
+  contact_email text,
+  whatsapp_number text,
+  bank_account_title text,
+  bank_name text,
+  bank_account_number text,
+  jazzcash_number text,
+  easypaisa_number text,
+  facebook_url text,
+  instagram_url text,
+  youtube_url text,
+  updated_at timestamptz not null default now(),
+  constraint academy_settings_singleton check (id = 1)
+);
+
+-- Exactly one row ever exists, so every part of the site reads the same settings.
+insert into academy_settings (id) values (1) on conflict (id) do nothing;
+
+alter table academy_settings enable row level security;
+
+-- Public/anon can read (the Contact page needs this before login), only admin can edit.
+create policy "academy_settings_public_read" on academy_settings
+  for select
+  using (true);
+
+create policy "academy_settings_admin_write" on academy_settings
+  for update
+  using (is_admin());

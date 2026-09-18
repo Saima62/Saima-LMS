@@ -1,7 +1,14 @@
 import ContactForm from '@/components/ContactForm';
+import { createClient } from '@/lib/supabase/server';
 import { submitContactMessage } from './actions';
 
-export default function ContactPage() {
+export default async function ContactPage() {
+  const supabase = await createClient();
+  const { data: settings } = await supabase.from('academy_settings').select('*').eq('id', 1).maybeSingle();
+
+  const hasPaymentDetails =
+    settings?.bank_account_title || settings?.bank_account_number || settings?.jazzcash_number || settings?.easypaisa_number;
+
   return (
     <div className="container-academy py-16 grid md:grid-cols-2 gap-14 max-w-4xl">
       <div>
@@ -14,13 +21,11 @@ export default function ContactPage() {
         <div className="space-y-4 text-sm mb-10">
           <div>
             <p className="text-ink/50 mb-1">Email</p>
-            {/* TODO Saima: replace with your real academy email address */}
-            <p className="text-ink">hello@saimaperveenacademy.com</p>
+            <p className="text-ink">{settings?.contact_email || 'Coming soon'}</p>
           </div>
           <div>
             <p className="text-ink/50 mb-1">WhatsApp</p>
-            {/* TODO Saima: replace with your real WhatsApp number */}
-            <p className="text-ink">+92 3XX XXXXXXX</p>
+            <p className="text-ink">{settings?.whatsapp_number || 'Coming soon'}</p>
           </div>
         </div>
 
@@ -31,21 +36,44 @@ export default function ContactPage() {
             then paste your transaction reference on the enrollment screen. Your seat is confirmed
             once it's reviewed — usually within 24 hours.
           </p>
-          {/* TODO Saima: replace with your real bank/JazzCash/Easypaisa account details */}
-          <dl className="text-sm space-y-2 text-ink/80">
-            <div className="flex justify-between">
-              <dt>Account title</dt>
-              <dd>Saima Perveen</dd>
-            </div>
-            <div className="flex justify-between">
-              <dt>Bank / method</dt>
-              <dd>[Bank name / JazzCash / Easypaisa]</dd>
-            </div>
-            <div className="flex justify-between">
-              <dt>Account number</dt>
-              <dd>[Add your account/IBAN number]</dd>
-            </div>
-          </dl>
+          {hasPaymentDetails ? (
+            <dl className="text-sm space-y-2 text-ink/80">
+              {settings?.bank_account_title && (
+                <div className="flex justify-between">
+                  <dt>Account title</dt>
+                  <dd>{settings.bank_account_title}</dd>
+                </div>
+              )}
+              {settings?.bank_name && (
+                <div className="flex justify-between">
+                  <dt>Bank</dt>
+                  <dd>{settings.bank_name}</dd>
+                </div>
+              )}
+              {settings?.bank_account_number && (
+                <div className="flex justify-between">
+                  <dt>Account / IBAN</dt>
+                  <dd>{settings.bank_account_number}</dd>
+                </div>
+              )}
+              {settings?.jazzcash_number && (
+                <div className="flex justify-between">
+                  <dt>JazzCash</dt>
+                  <dd>{settings.jazzcash_number}</dd>
+                </div>
+              )}
+              {settings?.easypaisa_number && (
+                <div className="flex justify-between">
+                  <dt>Easypaisa</dt>
+                  <dd>{settings.easypaisa_number}</dd>
+                </div>
+              )}
+            </dl>
+          ) : (
+            <p className="text-sm text-ink/50">
+              Payment details will be published here shortly — please contact us directly for now.
+            </p>
+          )}
         </div>
       </div>
 

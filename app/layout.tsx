@@ -4,8 +4,18 @@ import Navbar from '@/components/Navbar';
 import Footer from '@/components/Footer';
 
 export const metadata: Metadata = {
-  title: 'Saima Perveen English Academy',
-  description: 'Learn spoken, conversational and workplace English with Saima Perveen.'
+  title: {
+    default: 'Saima Perveen English Academy',
+    template: '%s — Saima Perveen English Academy'
+  },
+  description:
+    'Learn to speak English with confidence, not just correctness. Spoken English, conversational English, grammar and workplace English courses taught by Saima Perveen.',
+  openGraph: {
+    title: 'Saima Perveen English Academy',
+    description: 'Learn to speak English with confidence, not just correctness.',
+    type: 'website',
+    siteName: 'Saima Perveen English Academy'
+  }
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
