@@ -170,6 +170,20 @@ will show it.
 4. Deploy — Vercel gives you a free `.vercel.app` URL, and you can attach
    a custom domain later
 
+## What's built — Phase 6 (editable Academy Settings, polish)
+
+- **`/admin/settings`** — a real admin page for contact email, WhatsApp number,
+  bank/JazzCash/Easypaisa details, and social links. Nothing is hard-coded
+  anymore: the Contact page reads this straight from the database, and shows
+  a "coming soon" placeholder for anything left blank instead of a fake value.
+- **FAQ** added to the main navigation.
+- An **"Admin" link** now appears in the navbar for admin accounts only.
+- Footer shows social links only for the ones actually filled in.
+- SEO: proper page-title template and Open Graph metadata site-wide.
+- New SQL (bottom of `schema.sql`, marked "PHASE 6 ADDITIONS"): the
+  `academy_settings` table — same rule as before, if you've already run the
+  file, you only need to run that one new section.
+
 ## Environment variables required
 
 | Variable | Where to get it | Exposed to browser? |
