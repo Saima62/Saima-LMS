@@ -5,7 +5,7 @@ export default async function CoursesPage() {
   const supabase = await createClient();
   const { data: courses } = await supabase
     .from('courses')
-    .select('slug, title, short_description, price, duration_weeks, level')
+    .select('slug, title, short_description, price, duration_weeks, level, cover_image_url')
     .eq('status', 'published')
     .order('created_at', { ascending: false });
 

@@ -7,26 +7,33 @@ type Course = {
   price: number;
   duration_weeks: number | null;
   level: string;
+  cover_image_url?: string | null;
 };
 
 export default function CourseCard({ course }: { course: Course }) {
   return (
     <Link
       href={`/courses/${course.slug}`}
-      className="block border border-academy-100 rounded-sm p-6 bg-white hover:border-gold transition-colors"
+      className="block border border-academy-100 rounded-sm bg-white hover:border-gold transition-colors overflow-hidden"
     >
-      <p className="text-xs uppercase tracking-wide text-academy-600 mb-3">
-        {course.level.replace('_', ' ')}
-      </p>
-      <h3 className="font-serif text-xl text-ink mb-2">{course.title}</h3>
-      <p className="text-sm text-ink/70 mb-6">{course.short_description}</p>
-      <div className="flex items-center justify-between text-sm">
-        <span className="text-ink/60">
-          {course.duration_weeks ? `${course.duration_weeks} weeks` : 'Self-paced'}
-        </span>
-        <span className="font-medium text-ink">
-          {course.price === 0 ? 'Free' : `PKR ${course.price.toLocaleString()}`}
-        </span>
+      {course.cover_image_url && (
+        // eslint-disable-next-line @next/next/no-img-element
+        <img src={course.cover_image_url} alt="" className="w-full h-40 object-cover border-b border-academy-100" />
+      )}
+      <div className="p-6">
+        <p className="text-xs uppercase tracking-wide text-academy-600 mb-3">
+          {course.level.replace('_', ' ')}
+        </p>
+        <h3 className="font-serif text-xl text-ink mb-2">{course.title}</h3>
+        <p className="text-sm text-ink/70 mb-6">{course.short_description}</p>
+        <div className="flex items-center justify-between text-sm">
+          <span className="text-ink/60">
+            {course.duration_weeks ? `${course.duration_weeks} weeks` : 'Self-paced'}
+          </span>
+          <span className="font-medium text-ink">
+            {course.price === 0 ? 'Free' : `PKR ${course.price.toLocaleString()}`}
+          </span>
+        </div>
       </div>
     </Link>
   );

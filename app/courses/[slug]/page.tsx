@@ -23,6 +23,14 @@ export default async function CourseDetailPage({
   return (
     <div className="container-academy py-16 grid md:grid-cols-3 gap-12">
       <div className="md:col-span-2">
+        {course.cover_image_url && (
+          // eslint-disable-next-line @next/next/no-img-element
+          <img
+            src={course.cover_image_url}
+            alt=""
+            className="w-full h-56 object-cover rounded-sm border border-academy-100 mb-8"
+          />
+        )}
         <p className="text-xs uppercase tracking-wide text-academy-600 mb-3">
           {course.level.replace('_', ' ')} · {course.duration_weeks} weeks
         </p>

@@ -30,16 +30,19 @@ export default async function AboutPage() {
           Learning English the way it's actually used — not just how it's tested.
         </h1>
         <p className="text-ink/70 leading-relaxed mb-4">
-          Saima Perveen is an English Tutor &amp; Educator dedicated to helping learners build
-          confidence, improve communication skills and develop practical English for everyday,
-          academic and professional life. Her teaching approach focuses on structured learning,
-          speaking practice, vocabulary, grammar, confidence building and real-life communication.
+          Saima Perveen is an English Tutor &amp; Educator with <strong>5+ years of teaching
+          experience</strong>, dedicated to helping learners build confidence, improve
+          communication skills and develop practical English for everyday, academic and
+          professional life. Her teaching approach focuses on structured learning, speaking
+          practice, vocabulary, grammar, confidence building and real-life communication.
         </p>
         <p className="text-ink/70 leading-relaxed">
           Alongside English tutoring, Saima brings a background in teacher training and
           professional development, experience teaching school subjects, and dedicated online
-          English and spoken English tutoring — combining structured lesson planning with genuine,
-          one-on-one attention to how each student actually learns.
+          English and spoken English tutoring — working with <strong>both individual (one-on-one)
+          and group classes</strong>, and teaching <strong>both school-age students and
+          adults</strong>. Lessons combine structured planning with genuine attention to how each
+          student actually learns.
         </p>
 
         <div className="mt-10 grid grid-cols-2 sm:grid-cols-2 gap-4 max-w-sm">
@@ -89,6 +92,19 @@ export default async function AboutPage() {
                 <span className="text-gold">—</span> {q}
               </li>
             ))}
+          </ul>
+
+          <p className="text-xs uppercase tracking-wide text-ink/40 mb-3">Teaching format</p>
+          <ul className="space-y-2 mb-6">
+            <li className="text-sm text-ink/80 flex gap-2">
+              <span className="text-gold">—</span> 5+ years of teaching experience
+            </li>
+            <li className="text-sm text-ink/80 flex gap-2">
+              <span className="text-gold">—</span> One-on-one and group classes
+            </li>
+            <li className="text-sm text-ink/80 flex gap-2">
+              <span className="text-gold">—</span> School-age students and adults
+            </li>
           </ul>
 
           <p className="text-ink/70 leading-relaxed">
