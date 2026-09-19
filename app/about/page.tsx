@@ -1,4 +1,12 @@
-export default function AboutPage() {
+import { createClient } from '@/lib/supabase/server';
+
+export default async function AboutPage() {
+  const supabase = await createClient();
+  const [{ count: studentCount }, { count: courseCount }] = await Promise.all([
+    supabase.from('profiles').select('id', { count: 'exact', head: true }).eq('role', 'student'),
+    supabase.from('courses').select('id', { count: 'exact', head: true }).eq('status', 'published')
+  ]);
+
   const focusAreas = [
     'Spoken English',
     'Communication Skills',
@@ -33,6 +41,17 @@ export default function AboutPage() {
           English and spoken English tutoring — combining structured lesson planning with genuine,
           one-on-one attention to how each student actually learns.
         </p>
+
+        <div className="mt-10 grid grid-cols-2 sm:grid-cols-2 gap-4 max-w-sm">
+          <div className="border border-academy-100 bg-white rounded-sm p-5 text-center">
+            <p className="font-serif text-3xl text-ink">{studentCount ?? 0}</p>
+            <p className="text-xs text-ink/50 mt-1">Students enrolled</p>
+          </div>
+          <div className="border border-academy-100 bg-white rounded-sm p-5 text-center">
+            <p className="font-serif text-3xl text-ink">{courseCount ?? 0}</p>
+            <p className="text-xs text-ink/50 mt-1">Courses live</p>
+          </div>
+        </div>
       </section>
 
       <section className="container-academy pb-14">
