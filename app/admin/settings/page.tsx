@@ -17,6 +17,27 @@ export default async function AdminSettingsPage() {
 
       <form action={updateAcademySettings} className="space-y-8">
         <div className="border border-academy-100 bg-white rounded-sm p-6">
+          <p className="text-xs uppercase tracking-wide text-ink/40 mb-4">About page</p>
+          <div>
+            <label className="block text-sm text-ink mb-1">Profile photo URL</label>
+            <input
+              name="profile_photo_url"
+              defaultValue={field('profile_photo_url', '')}
+              placeholder="https://..."
+              className="w-full border border-academy-100 rounded-sm px-3 py-2 text-sm"
+            />
+            <p className="text-xs text-ink/50 mt-1">
+              Upload a photo from{' '}
+              <a href="/dashboard/profile" className="underline">
+                your own Profile Settings page
+              </a>{' '}
+              first, then paste the resulting image link here — it'll appear on the public About
+              page.
+            </p>
+          </div>
+        </div>
+
+        <div className="border border-academy-100 bg-white rounded-sm p-6">
           <p className="text-xs uppercase tracking-wide text-ink/40 mb-4">Contact</p>
           <div className="space-y-4">
             <div>

@@ -613,3 +613,9 @@ create policy "academy_settings_admin_write" on academy_settings
 -- Run just this section if everything above already exists.
 -- ============================================================
 alter table contact_messages add column if not exists category text;
+
+-- ============================================================
+-- PHASE 8 ADDITIONS: instructor profile photo
+-- Run just this section if everything above already exists.
+-- ============================================================
+alter table academy_settings add column if not exists profile_photo_url text;

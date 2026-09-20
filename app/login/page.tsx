@@ -1,17 +1,28 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect, Suspense } from 'react';
 import Link from 'next/link';
-import { useRouter } from 'next/navigation';
+import { useRouter, useSearchParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 
-export default function LoginPage() {
+function LoginForm() {
   const supabase = createClient();
   const router = useRouter();
+  const searchParams = useSearchParams();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
+
+  const [linkExpired, setLinkExpired] = useState(false);
+  const [resendStatus, setResendStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+
+  useEffect(() => {
+    if (searchParams.get('confirm') === 'expired') {
+      setLinkExpired(true);
+    }
+  }, [searchParams]);
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -30,10 +41,43 @@ export default function LoginPage() {
     router.refresh();
   }
 
+  async function handleResend() {
+    if (!email) {
+      setError('Enter your email above first, then tap "Resend confirmation email".');
+      return;
+    }
+    setResendStatus('sending');
+    const { error } = await supabase.auth.resend({ type: 'signup', email });
+    setResendStatus(error ? 'error' : 'sent');
+  }
+
   return (
     <div className="container-academy max-w-md py-20">
       <h1 className="font-serif text-3xl text-ink mb-2">Log in</h1>
       <p className="text-ink/60 mb-8 text-sm">Welcome back — continue your course.</p>
+
+      {linkExpired && (
+        <div className="border border-gold/40 bg-academy-50 rounded-sm p-4 mb-6 text-sm">
+          <p className="text-ink mb-2">
+            That confirmation link had expired or was already used. Enter your email below and
+            tap "Resend confirmation email" to get a fresh one.
+          </p>
+          <button
+            type="button"
+            onClick={handleResend}
+            disabled={resendStatus === 'sending'}
+            className="text-sm bg-ink text-paper px-4 py-2 rounded-sm hover:bg-academy-700 disabled:opacity-50"
+          >
+            {resendStatus === 'sending' ? 'Sending…' : 'Resend confirmation email'}
+          </button>
+          {resendStatus === 'sent' && (
+            <p className="text-academy-600 mt-2">Sent — check your inbox (and spam folder).</p>
+          )}
+          {resendStatus === 'error' && (
+            <p className="text-red-600 mt-2">Couldn't resend — please try again in a moment.</p>
+          )}
+        </div>
+      )}
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
@@ -72,5 +116,13 @@ export default function LoginPage() {
         <Link href="/register" className="underline">Create account</Link>
       </div>
     </div>
+  );
+}
+
+export default function LoginPage() {
+  return (
+    <Suspense fallback={null}>
+      <LoginForm />
+    </Suspense>
   );
 }

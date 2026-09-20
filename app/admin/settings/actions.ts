@@ -14,6 +14,7 @@ export async function updateAcademySettings(formData: FormData) {
   const { error } = await supabase
     .from('academy_settings')
     .update({
+      profile_photo_url: field('profile_photo_url'),
       contact_email: field('contact_email'),
       whatsapp_number: field('whatsapp_number'),
       bank_account_title: field('bank_account_title'),
@@ -32,4 +33,5 @@ export async function updateAcademySettings(formData: FormData) {
 
   revalidatePath('/admin/settings');
   revalidatePath('/contact');
+  revalidatePath('/about');
 }
