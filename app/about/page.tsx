@@ -20,7 +20,7 @@ export default async function AboutPage() {
     "Master's in Physical Education — University of Sargodha (2020)",
     'B.Ed — Allama Iqbal Open University',
     'Teacher Training Workshop — Quaid-e-Azam Academy (6-day, Sept 2023)',
-    'PPSC Qualified',
+    'FPSC Qualified',
     '2nd position secured on merit'
   ];
 
@@ -41,24 +41,6 @@ export default async function AboutPage() {
         'Teaching and lesson planning for students',
         'Classroom management and student engagement',
         'Organizing sports activities and supporting physical development'
-      ]
-    },
-    {
-      role: 'Business Development Executive',
-      org: 'Cyber Advance Solution',
-      points: [
-        'Business development and client interaction',
-        'Digital services and professional relationship building',
-        'Communication across teams and clients'
-      ]
-    },
-    {
-      role: 'Flight Attendant',
-      org: 'Previous professional experience',
-      points: [
-        'Approximately 2,000 hours of flight experience',
-        'Mentored more than 40 junior flight attendants',
-        'Communication, customer service and teamwork with diverse people'
       ]
     }
   ];
