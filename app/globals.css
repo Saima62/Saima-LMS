@@ -14,3 +14,19 @@ body {
   padding-left: 1.5rem;
   padding-right: 1.5rem;
 }
+
+/* Lesson notes — the notes HTML saved in Admin (headings, lists, bold) needs
+   basic styling because Tailwind's reset removes it by default. */
+.lesson-notes h3 {
+  font-family: 'Source Serif 4', Georgia, serif;
+  font-size: 1.05rem;
+  font-weight: 600;
+  margin: 1.25rem 0 0.4rem;
+  color: #1E2A33;
+}
+.lesson-notes h3:first-child { margin-top: 0; }
+.lesson-notes p { margin: 0.6rem 0; line-height: 1.7; }
+.lesson-notes ul { list-style: disc; padding-left: 1.25rem; margin: 0.6rem 0; }
+.lesson-notes ol { list-style: decimal; padding-left: 1.25rem; margin: 0.6rem 0; }
+.lesson-notes li { margin: 0.3rem 0; line-height: 1.6; }
+.lesson-notes strong { font-weight: 600; color: #1E2A33; }

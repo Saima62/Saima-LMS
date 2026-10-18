@@ -65,7 +65,7 @@ export default async function LessonPage({
       {lesson.notes_html && (
         <div className="border border-academy-100 bg-white rounded-sm p-6 mb-6">
           <p className="text-xs uppercase tracking-wide text-ink/40 mb-3">Lesson notes</p>
-          <div className="prose prose-sm max-w-none text-ink/80" dangerouslySetInnerHTML={{ __html: lesson.notes_html }} />
+          <div className="lesson-notes prose prose-sm max-w-none text-ink/80 text-sm" dangerouslySetInnerHTML={{ __html: lesson.notes_html }} />
         </div>
       )}
 
