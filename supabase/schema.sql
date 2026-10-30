@@ -619,3 +619,126 @@ alter table contact_messages add column if not exists category text;
 -- Run just this section if everything above already exists.
 -- ============================================================
 alter table academy_settings add column if not exists profile_photo_url text;
+
+-- ============================================================
+-- PHASE 9 ADDITIONS
+--   1. Fix: course completion + certificate issuing
+--   2. Announcements (teacher notices shown on the student dashboard)
+--   3. Explicit Data API grants (needed for new tables from 30 Oct 2026)
+-- Run just this section if everything above already exists.
+-- ============================================================
+
+-- 1) Students are not allowed to edit their own enrollment row (only admin
+--    can), so the old app code could never mark a course "completed" and no
+--    certificate was ever issued. This function does it safely on the
+--    database side: it checks the student's real progress itself, so nobody
+--    can complete a course without finishing every lesson.
+create or replace function complete_course_if_eligible(p_course_id uuid)
+returns table(course_completed boolean, cert_code text)
+language plpgsql
+security definer
+set search_path = public
+as $$
+declare
+  v_student uuid := auth.uid();
+  v_status enrollment_status;
+  v_total int;
+  v_done int;
+  v_code text;
+begin
+  if v_student is null then
+    raise exception 'Not authenticated';
+  end if;
+
+  select e.status into v_status from enrollments e
+  where e.student_id = v_student and e.course_id = p_course_id;
+
+  if v_status is null or v_status not in ('active', 'completed') then
+    return query select false, null::text;
+    return;
+  end if;
+
+  select count(*) into v_total
+  from lessons l join modules m on m.id = l.module_id
+  where m.course_id = p_course_id;
+
+  select count(*) into v_done
+  from lesson_progress lp
+  join lessons l on l.id = lp.lesson_id
+  join modules m on m.id = l.module_id
+  where m.course_id = p_course_id and lp.student_id = v_student and lp.completed;
+
+  if v_total = 0 or v_done < v_total then
+    return query select false, null::text;
+    return;
+  end if;
+
+  if v_status = 'active' then
+    update enrollments set status = 'completed', completed_at = now()
+    where student_id = v_student and course_id = p_course_id;
+  end if;
+
+  select c.certificate_code into v_code from certificates c
+  where c.student_id = v_student and c.course_id = p_course_id;
+
+  if v_code is null then
+    v_code := 'SPEA-' || extract(year from now())::text || '-' || lpad(nextval('certificate_seq')::text, 6, '0');
+    insert into certificates (certificate_code, student_id, course_id)
+    values (v_code, v_student, p_course_id);
+  end if;
+
+  return query select true, v_code;
+end;
+$$;
+
+grant execute on function complete_course_if_eligible(uuid) to authenticated;
+
+-- 2) Announcements (course_id empty = shown to every student)
+create table if not exists announcements (
+  id uuid primary key default uuid_generate_v4(),
+  title text not null,
+  body text not null,
+  course_id uuid references courses(id) on delete cascade,
+  created_at timestamptz not null default now()
+);
+
+alter table announcements enable row level security;
+
+drop policy if exists "announcements_read" on announcements;
+create policy "announcements_read" on announcements for select using (
+  is_admin()
+  or course_id is null
+  or exists (
+    select 1 from enrollments e
+    where e.course_id = announcements.course_id
+      and e.student_id = auth.uid()
+      and e.status in ('active', 'completed')
+  )
+);
+
+drop policy if exists "announcements_admin_write" on announcements;
+create policy "announcements_admin_write" on announcements for all using (is_admin());
+
+-- 3) Explicit grants. Row Level Security above still decides which ROWS
+--    each person can see; grants only open the door to the table itself.
+grant usage on schema public to anon, authenticated, service_role;
+
+-- (enrollments is included because the lessons/live-class security rules look
+--  at it; anon still sees zero rows there thanks to Row Level Security)
+grant select on public.courses, public.modules, public.lessons, public.quizzes,
+  public.assignments, public.academy_settings, public.enrollments to anon;
+grant insert on public.contact_messages to anon;
+
+grant select, insert, update, delete on
+  public.profiles, public.courses, public.modules, public.lessons, public.quizzes,
+  public.quiz_questions, public.quiz_attempts, public.assignments,
+  public.assignment_submissions, public.enrollments, public.lesson_progress,
+  public.certificates, public.live_classes, public.notifications,
+  public.contact_messages, public.academy_settings, public.announcements
+  to authenticated;
+
+grant select, insert, update, delete on all tables in schema public to service_role;
+
+-- RULE FOR FUTURE TABLES: put a grant next to every "create table", e.g.
+--   grant select on public.new_table to anon;
+--   grant select, insert, update, delete on public.new_table to authenticated, service_role;

@@ -10,6 +10,7 @@ const links = [
   { href: '/admin/enrollments', label: 'Enrollments' },
   { href: '/admin/assignments', label: 'Assignments' },
   { href: '/admin/live-classes', label: 'Live Classes' },
+  { href: '/admin/announcements', label: 'Announcements' },
   { href: '/admin/messages', label: 'Messages' },
   { href: '/admin/settings', label: 'Settings' }
 ];
