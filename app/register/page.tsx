@@ -14,6 +14,13 @@ export default function RegisterPage() {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
   const [needsEmailConfirmation, setNeedsEmailConfirmation] = useState(false);
+  const [resendStatus, setResendStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
+
+  async function handleResend() {
+    setResendStatus('sending');
+    const { error } = await supabase.auth.resend({ type: 'signup', email });
+    setResendStatus(error ? 'error' : 'sent');
+  }
 
   async function handleSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -59,6 +66,21 @@ export default function RegisterPage() {
           </Link>
           .
         </p>
+        <p className="text-ink/60 text-sm mt-6">
+          Didn't get it, or the link says it has expired? Check your spam folder, or:
+        </p>
+        <button
+          type="button"
+          onClick={handleResend}
+          disabled={resendStatus === 'sending'}
+          className="mt-3 text-sm bg-ink text-paper px-4 py-2 rounded-sm hover:bg-academy-700 disabled:opacity-50"
+        >
+          {resendStatus === 'sending' ? 'Sending…' : 'Resend confirmation email'}
+        </button>
+        {resendStatus === 'sent' && <p className="text-academy-600 text-sm mt-2">Sent — please check your inbox.</p>}
+        {resendStatus === 'error' && (
+          <p className="text-red-600 text-sm mt-2">Couldn't resend right now — please wait a minute and try again.</p>
+        )}
       </div>
     );
   }

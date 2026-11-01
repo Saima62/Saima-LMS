@@ -16,6 +16,7 @@ function LoginForm() {
   const [loading, setLoading] = useState(false);
 
   const [linkExpired, setLinkExpired] = useState(false);
+  const [needsConfirm, setNeedsConfirm] = useState(false);
   const [resendStatus, setResendStatus] = useState<'idle' | 'sending' | 'sent' | 'error'>('idle');
 
   useEffect(() => {
@@ -33,7 +34,16 @@ function LoginForm() {
     setLoading(false);
 
     if (error) {
-      setError('Incorrect email or password.');
+      // Supabase refuses to log in an account whose confirmation email was
+      // never clicked. Say so (and offer a fresh email) instead of the
+      // misleading "incorrect password".
+      const unconfirmed = error.code === 'email_not_confirmed' || /not confirmed/i.test(error.message);
+      if (unconfirmed) {
+        setNeedsConfirm(true);
+        setError('');
+      } else {
+        setError('Incorrect email or password.');
+      }
       return;
     }
 
@@ -56,11 +66,12 @@ function LoginForm() {
       <h1 className="font-serif text-3xl text-ink mb-2">Log in</h1>
       <p className="text-ink/60 mb-8 text-sm">Welcome back — continue your course.</p>
 
-      {linkExpired && (
+      {(linkExpired || needsConfirm) && (
         <div className="border border-gold/40 bg-academy-50 rounded-sm p-4 mb-6 text-sm">
           <p className="text-ink mb-2">
-            That confirmation link had expired or was already used. Enter your email below and
-            tap "Resend confirmation email" to get a fresh one.
+            {needsConfirm
+              ? 'Your email address is not confirmed yet. Open the confirmation email we sent you, or tap the button to get a fresh one (check your spam folder too).'
+              : 'That confirmation link had expired or was already used. Enter your email below and tap "Resend confirmation email" to get a fresh one.'}
           </p>
           <button
             type="button"
